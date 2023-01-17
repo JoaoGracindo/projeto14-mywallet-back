@@ -1,19 +1,12 @@
+
 import { MongoClient } from "mongodb";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-let db; 
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
+await mongoClient.connect();
+const db = mongoClient.db();
+const usersCollection = db.collection("users");
+const sessionsCollection = db.collection("sessions");
 
-try{
-    await mongoClient.connect();
-    db = await mongoClient.db();
-
-}catch(err){
-    console.log(err);
-}
-
-const sessiosCollection = db.collections('sessions');
-const usersCollection = db.collections('users');
-
-export {sessiosCollection, usersCollection}
+export {usersCollection, sessionsCollection};
