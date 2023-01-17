@@ -9,16 +9,16 @@ class Transaction{
 
 export class UserAccount{
 
-    constructor(nome, email, senha){
-        this.nome = nome;
+    constructor(name, email, senha){
+        this.name = name;
         this.email = email;
         this.hash = bcrypt.hashSync(senha, 10);
         this.transactions = [];
         this.saldo = 0;
     }
 
-    getNome(){
-        return this.nome;
+    getName(){
+        return this.name;
     } 
 
     getHash(){

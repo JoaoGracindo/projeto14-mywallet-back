@@ -3,14 +3,15 @@ import {usersCollection} from '../database.js';
 
 
 export async function postParticipantController(req, res){
-    const {nome, email, senha} = req.body;
+    const {name, email, senha} = req.body;
 
-    const user = new UserAccount(nome, email, senha);
+    const user = new UserAccount(name, email, senha);
+
 
     try{
         await usersCollection.insertOne(user);
     }catch(err){
-        console.log(err);
+
         return res.status(500).send(err);
     }
 
@@ -21,7 +22,7 @@ export async function getParticipantsController(req, res){
     let userList;
 
     try{
-        userList = await usersCollection.findOne();    
+        userList = await usersCollection.find().toArray();    
     }catch(err){
         res.status(500).send(err);
     }
