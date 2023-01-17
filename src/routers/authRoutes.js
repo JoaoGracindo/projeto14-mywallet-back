@@ -1,9 +1,9 @@
-import express from 'express';
+import {Router} from 'express';
 
 import { postParticipantController, getParticipantsController } from '../controllers/participantsControllers.js';
 import {signUpMiddleware} from '../middlewares/userMiddlewares.js';
 
-const router = express.Router();
+const router = Router();
 
 router.post('/participants', signUpMiddleware, postParticipantController);
 router.get('/participants', getParticipantsController);
