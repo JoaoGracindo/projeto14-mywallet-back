@@ -58,6 +58,7 @@ export async function putTransactionController(req, res){
 
     try{
         await usersCollection.updateOne({_id: ObjectId(user._id)}, {$set: {transactions}});
+        aualizaSaldo(transactions, user._id);
         return res.sendStatus(200);
 
     }catch(err){
@@ -76,6 +77,7 @@ export async function deleteTransactionController(req, res){
 
     try{
         await usersCollection.updateOne({_id: ObjectId(user._id)}, {$set: {transactions: newTransactions}});
+        aualizaSaldo(newTransactions, user._id);
         return res.sendStatus(200);
 
     }catch(err){
