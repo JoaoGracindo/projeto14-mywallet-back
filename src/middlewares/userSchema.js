@@ -6,4 +6,10 @@ const signUpSchema = Joi.object({
     senha: Joi.string().required()
 });
 
-export {signUpSchema};
+const transactionSchema = Joi.object({
+    isIncoming: Joi.boolean().required(),
+    amount: Joi.number().required(),
+    title: Joi.string().min(3).max(20).required()
+})
+
+export {signUpSchema, transactionSchema};

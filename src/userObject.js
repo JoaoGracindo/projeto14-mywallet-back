@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 
 class Transaction{
-    constructor(isIncoming, amount){
+    constructor(isIncoming, amount, title){
         this.isIncoming = isIncoming;
-        this.amount = amount
+        this.amount = amount;
+        this.title = title;
     }
 }
 
@@ -37,9 +38,9 @@ export class UserAccount{
         return this.saldo;
     }
 
-    setTransaction(isIncoming, amount){
+    setTransaction(isIncoming, amount, title){
 
-        const transaction = new Transaction(isIncoming, amount);
+        const transaction = new Transaction(isIncoming, amount, title);
         this.transactions.push(transaction);
 
         if(isIncoming){
