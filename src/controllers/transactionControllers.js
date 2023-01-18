@@ -2,6 +2,17 @@ import { ObjectId } from "mongodb";
 import { usersCollection } from "../database.js";
 import { transactionSchema } from "../middlewares/userSchema.js";
 
+async function aualizaSaldo(transactions, id){
+    let saldo = 0;
+
+    for(let i = 0; i < transactions.length; i++){
+
+        transactions[i].isIncoming ? saldo += transactions[i].amount : saldo -= transactions[i].amount;
+    }
+
+    await usersCollection.updateOne({_id: ObjectId(id)}, {$set: {saldo}});
+}
+
 export function getTransactionController(req, res){
     const user = res.locals.user;
     const {transactions} = user;
@@ -19,9 +30,11 @@ export async function postTransactionController(req, res){
     if(error)return res.status(422).send("Must inform a boolean, a number and valid text");
 
     transactions.push(newTransaction);
+    
 
     try{
         await usersCollection.updateOne({_id: ObjectId(user._id)}, {$set: {transactions}});
+        aualizaSaldo(transactions, user._id);
 
     }catch(err){
         return res.status(500).send(err)

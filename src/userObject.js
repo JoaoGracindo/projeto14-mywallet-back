@@ -1,12 +1,5 @@
 import bcrypt from 'bcrypt';
 
-class Transaction{
-    constructor(isIncoming, amount, title){
-        this.isIncoming = isIncoming;
-        this.amount = amount;
-        this.title = title;
-    }
-}
 
 export class UserAccount{
 
@@ -16,18 +9,5 @@ export class UserAccount{
         this.hash = bcrypt.hashSync(senha, 10);
         this.transactions = [];
         this.saldo = 0;
-    }
-
-
-    setTransaction(isIncoming, amount, title){
-
-        const transaction = new Transaction(isIncoming, amount, title);
-        this.transactions.push(transaction);
-
-        if(isIncoming){
-            this.saldo += amount;
-        }else{
-            this.saldo -= amount;
-        }
     }
 }
