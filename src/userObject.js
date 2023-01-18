@@ -18,25 +18,6 @@ export class UserAccount{
         this.saldo = 0;
     }
 
-    getName(){
-        return this.name;
-    } 
-
-    getHash(){
-        return this.hash;
-    }
-
-    getEmail(){
-        return this.email;
-    }
-
-    getTrasactions(){
-        return this.transactions;
-    }
-
-    getSaldo(){
-        return this.saldo;
-    }
 
     setTransaction(isIncoming, amount, title){
 

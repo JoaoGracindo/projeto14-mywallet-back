@@ -3,7 +3,7 @@ import { sessionsCollection, usersCollection } from "../database.js";
 
 export default async function authentication(req, res, next){
 
-    const{authorization} = req.headers;
+    const { authorization } = req.headers;
     if(!authorization) return res.sendStatus(401);
     
     const token = authorization.replace('Bearer ','');
