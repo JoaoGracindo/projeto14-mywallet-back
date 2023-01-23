@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
+import { ObjectId } from "mongodb";
 
 import { sessionsCollection, usersCollection } from "../database.js";
 
@@ -30,5 +31,16 @@ export async function logInController(req, res){
 
     }catch(err){
         return res.status(500).send(err);
+    }
+}
+
+export async function logout(req, res){
+    const user = res.locals.user;
+
+    try{
+        await sessionsCollection.deleteOne({userId: ObjectId(user._id)});
+        return res.sendStatus(200);
+    }catch(err){
+        return res.sendStatus(500);
     }
 }
