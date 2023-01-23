@@ -1,13 +1,18 @@
 import { ObjectId } from "mongodb";
 import { usersCollection } from "../database.js";
 import { transactionSchema } from "../middlewares/userSchema.js";
+import dayjs from "dayjs";
 
 async function aualizaSaldo(transactions, id){
     let saldo = 0;
 
     for(let i = 0; i < transactions.length; i++){
 
-        transactions[i].isIncoming ? saldo += transactions[i].amount : saldo -= transactions[i].amount;
+        if(transactions[i].isIncoming){
+            saldo += Number(transactions[i].amount)
+        }else{
+            saldo -= Number(transactions[i].amount)
+        }
     }
 
     await usersCollection.updateOne({_id: ObjectId(id)}, {$set: {saldo}});
@@ -15,9 +20,9 @@ async function aualizaSaldo(transactions, id){
 
 export function getTransactionController(req, res){
     const user = res.locals.user;
-    const {transactions} = user;
+    const {transactions, saldo, name} = user;
 
-    return res.status(200).send(transactions);
+    return res.status(200).send({transactions, saldo, name});
 }
 
 
@@ -29,7 +34,7 @@ export async function postTransactionController(req, res){
     const {error} = transactionSchema.validate(newTransaction);
     if(error)return res.status(422).send("Must inform a boolean, a number and valid text");
 
-    transactions.push(newTransaction);
+    transactions.push({...newTransaction, date: dayjs().format('MM:DD')});
     
 
     try{

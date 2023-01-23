@@ -6,7 +6,7 @@ const router = Router();
 
 
 router.get('/', getSessionsController);
-
 router.post('/', logInController);
+
 
 export default router;
